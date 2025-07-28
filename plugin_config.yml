@@ -1,0 +1,94 @@
+# Dify插件配置文件
+# 参考Dify官方插件规范编写
+
+name: customs_declaration_processor
+description: 物流报关文件处理插件
+version: 1.0.0
+author: "迈创企业管理服务股份有限公司"
+repository: https://github.com/your-username/customs-declaration-plugin
+tags:
+  - logistics
+  - customs
+  - excel-processing
+  - file-processing
+
+# 插件元数据
+metadata:
+  title: 物流报关文件处理器
+  description: 自动处理装箱单、发票和随附文件，并生成标准化的报关Excel文件
+  icon: 📄
+  category: productivity
+
+# 环境要求
+runtime_version: ">=3.8"
+dependencies:
+  - pandas>=2.0.0
+  - openpyxl>=3.1.0
+  - python-dateutil>=2.8.0
+
+# 插件入口点
+entrypoint:
+  file: dify_integration.py
+  function: dify_main
+
+# 配置参数
+parameters:
+  - name: input_folder_path
+    type: string
+    description: 包含待处理Excel文件的文件夹路径
+    required: true
+    default: "uploads"
+  
+  - name: output_folder_path
+    type: string
+    description: 输出文件夹路径
+    required: false
+    default: "outputs"
+
+# 输出规格
+returns:
+  type: object
+  properties:
+    status:
+      type: string
+      description: 处理状态 (success/error)
+    message:
+      type: string
+      description: 处理消息
+    output_file:
+      type: string
+      description: 输出文件路径
+    file_id:
+      type: string
+      description: 文件ID
+    processing_date:
+      type: string
+      description: 处理日期
+    summary:
+      type: object
+      description: 处理摘要
+      properties:
+        packing_list_items:
+          type: integer
+          description: 装箱单项目数
+        invoice_items:
+          type: integer
+          description: 发票项目数
+        contract_items:
+          type: integer
+          description: 合同项目数
+        declaration_items:
+          type: integer
+          description: 申报项目数
+
+# 许可证
+license: MIT
+
+# 更新日志
+changelog:
+  - version: 1.0.0
+    date: 2025-07-25
+    changes:
+      - 初始版本发布
+      - 支持处理装箱单、发票和随附文件
+      - 生成标准化报关Excel文件
